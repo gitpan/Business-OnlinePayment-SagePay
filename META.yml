@@ -1,0 +1,16 @@
+---
+abstract: 'SagePay (formerly Protx) backend for Business::OnlinePayment'
+author:
+  - 'Simon Elliott <cpan@browsing.co.uk>'
+generated_by: 'Dist::Zilla version 1.092680'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Business-OnlinePayment-SagePay
+requires:
+  Business::OnlinePayment: 2.01
+  Data::Dumper: 0
+  Net::SSLeay: 1.35
+  Test::More: 0
+version: 0.06
