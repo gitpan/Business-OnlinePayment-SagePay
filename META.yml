@@ -13,4 +13,4 @@ requires:
   Data::Dumper: 0
   Net::SSLeay: 1.35
   Test::More: 0
-version: 0.06
+version: 0.07

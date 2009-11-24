@@ -7,7 +7,7 @@ use Net::SSLeay qw(make_form post_https);
 use base qw(Business::OnlinePayment);
 use Data::Dumper;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 # CARD TYPE MAP
 
@@ -32,14 +32,15 @@ my $status = {
   3078 => 'Your e-mail was invalid.',
   4023 => 'The card issue number is invalid.',
   4024 => 'The card issue number is required.',
-  2000 => 'Your card was declined by the bank',
+  2000 => 'Your card was declined by the issuer',
   2001 => 'Your card was declined by the merchant',
   5995 => 'Please ensure you have entered the correct digits off the back of your card and your billing address is correct',
   5027 => 'Card start date is invalid',
   5028 => 'Card expiry date is invalid',
   3107 => 'Please ensure you have entered your full name, not just your surname',
   3069 => 'Your card type is not supported by this vendor',
-  3057 => 'Your card security number was incorrect. This is normally the last 3 digits on the back of your card'
+  3057 => 'Your card security number was incorrect. This is normally the last 3 digits on the back of your card',
+  4021 => 'Your card number was incorrect',
 };
 
 #ACTION MAP
@@ -53,11 +54,11 @@ my %action = (
 my %servers = (
   live => {
     url => 'live.sagepay.com',
-    path => '/vspgateway/service/vspdirect-register.vsp',
-    callback => '/vspgateway/service/direct3dcallback.vsp',
-    authorise => '/vspgateway/service/authorise.vsp',
-    refund => '/vspgateway/service/refund.vsp',
-    cancel => '/vspgateway/service/cancel.vsp',
+    path => '/gateway/service/vspdirect-register.vsp',
+    callback => '/gateway/service/direct3dcallback.vsp',
+    authorise => '/gateway/service/authorise.vsp',
+    refund => '/gateway/service/refund.vsp',
+    cancel => '/gateway/service/cancel.vsp',
     port => 443,
   },
   test => {
@@ -241,7 +242,7 @@ sub cancel_action { #cancel authentication
   $self->set_server($ENV{'SAGEPAY_F_SIMULATOR'} ? 'simulator' : 'test') if $self->test_transaction;
   my %content = $self->content();
   my %field_mapping = (
-  	VpsProtocol   => \($self->protocol),
+    VpsProtocol   => \($self->protocol),
     Vendor        => \($self->vendor),
     VendorTxCode  => 'parent_invoice_number',
     TxAuthNo      => 'invoice_number',
@@ -349,7 +350,9 @@ sub auth_action {
     if($ENV{'SAGEPAY_DEBUG_ERROR_ONLY'}) {
       warn Dumper($rf);
     }
-    $self->error_message('There was a problem authorising your payment. Please check your card details and try again.');
+    my $code = substr $rf->{'StatusDetail'}, 0 ,4;
+    $self->error_code($code);
+    $self->error_message($status->{$code} || 'There was an unknown problem taking your payment. Please try again');
   }
 
 }
@@ -474,7 +477,7 @@ Business::OnlinePayment::SagePay - SagePay backend for Business::OnlinePayment
 
 =head1 VERSION
 
-version 0.06
+version 0.07
 
 =head1 SYNOPSIS
 

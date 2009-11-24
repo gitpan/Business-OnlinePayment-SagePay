@@ -19,3 +19,7 @@ Revision history for Perl extension Business::SagePay.
 
 0.06  Fri Apr 17 2009
       - Rename to SagePay
+
+0.06  Fri Apr 17 2009
+      - Fix bad live URI
+      - Fix status code/message on authz
