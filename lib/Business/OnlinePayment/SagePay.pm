@@ -7,7 +7,7 @@ use Net::SSLeay qw(make_form post_https);
 use base qw(Business::OnlinePayment);
 use Data::Dumper;
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 # CARD TYPE MAP
 
@@ -41,6 +41,7 @@ my $status = {
   3069 => 'Your card type is not supported by this vendor',
   3057 => 'Your card security number was incorrect. This is normally the last 3 digits on the back of your card',
   4021 => 'Your card number was incorrect',
+  5018 => "Your card security number was the incorrect length. This is normally the last 3 digits on the back of your card",
 };
 
 #ACTION MAP
@@ -344,9 +345,6 @@ sub auth_action {
   $self->result_code($rf->{'Status'});
   $self->authorization($rf->{'VPSTxId'});
   unless($self->is_success($rf->{'Status'} eq 'OK'? 1 : 0)) {
-    my $code = substr $rf->{'StatusDetail'}, 0 ,4;
-    $self->error_code($code);
-
     if($ENV{'SAGEPAY_DEBUG_ERROR_ONLY'}) {
       warn Dumper($rf);
     }
@@ -413,6 +411,7 @@ sub submit {
   my %post_data = $self->do_remap(\%content,%field_mapping);
 
   if($ENV{'SAGEPAY_DEBUG'}) {
+    warn "Authentication Form:";
     warn Dumper({%post_data, CV2 => "XXX", CardNumber => "XXXX XXXX XXXX XXXX"});
   }
 
@@ -447,6 +446,7 @@ sub submit {
   $self->cvv2_response($rf->{'CV2Result'});
   $self->postcode_response($rf->{'PostCodeResult'});
   if($ENV{'SAGEPAY_DEBUG'}) {
+    warn "Authentication Response:";
     warn Dumper($rf);
   }
   unless($self->is_success(
@@ -477,7 +477,7 @@ Business::OnlinePayment::SagePay - SagePay backend for Business::OnlinePayment
 
 =head1 VERSION
 
-version 0.07
+version 0.08
 
 =head1 SYNOPSIS
 
