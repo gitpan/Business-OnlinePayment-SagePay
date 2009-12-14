@@ -11,7 +11,7 @@ WriteMakefile(
   NAME      => 'Business::OnlinePayment::SagePay',
   AUTHOR    => "Simon\ Elliott\ \<cpan\@papercreatures\.com\>",
   ABSTRACT  => "SagePay\ \(formerly\ Protx\)\ backend\ for\ Business\:\:OnlinePayment",
-  VERSION   => '0.09',
+  VERSION   => '0.10',
   EXE_FILES => [ qw() ],
   (eval { ExtUtils::MakeMaker->VERSION(6.31) } ? (LICENSE => 'perl') : ()),
   PREREQ_PM    => {
