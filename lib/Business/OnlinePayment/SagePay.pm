@@ -6,7 +6,7 @@ use Net::SSLeay qw(make_form post_https);
 use base qw(Business::OnlinePayment);
 use Data::Dumper;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 # CARD TYPE MAP
 
@@ -15,7 +15,7 @@ my %card_type = (
   'amex' => 'AMEX',
   'visa' => 'VISA',
   'visa electron' => 'UKE',
-  'visa debit' => 'VISA',
+  'visa debit' => 'DELTA',
   'mastercard' => 'MC',
   'maestro' => 'MAESTRO',
   'switch' => 'MAESTRO',
@@ -481,7 +481,7 @@ Business::OnlinePayment::SagePay - SagePay backend for Business::OnlinePayment
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 SYNOPSIS
 
