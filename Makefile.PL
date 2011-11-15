@@ -4,33 +4,49 @@ use warnings;
 
 
 
-use ExtUtils::MakeMaker 6.11;
+use ExtUtils::MakeMaker 6.30;
 
 
 
 my %WriteMakefileArgs = (
-                       'test' => {
-                                   'TESTS' => 't/*.t'
-                                 },
-                       'NAME' => 'Business::OnlinePayment::SagePay',
-                       'DISTNAME' => 'Business-OnlinePayment-SagePay',
-                       'AUTHOR' => 'Simon Elliott <cpan@papercreatures.com>',
-                       'ABSTRACT' => 'SagePay (formerly Protx) backend for Business::OnlinePayment',
-                       'EXE_FILES' => [],
-                       'VERSION' => '0.12',
-                       'LICENSE' => 'perl',
-                       'PREREQ_PM' => {
-                                        'Net::SSLeay' => '1.35',
-                                        'Test::More' => '0',
-                                        'ExtUtils::MakeMaker' => '6.11',
-                                        'Data::Dumper' => '0',
-                                        'Business::OnlinePayment' => '2.01'
-                                      }
-                     );
+  "ABSTRACT" => "SagePay (formerly Protx) backend for Business::OnlinePayment",
+  "AUTHOR" => "Simon Elliott <cpan\@papercreatures.com>",
+  "BUILD_REQUIRES" => {},
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
+  },
+  "DISTNAME" => "Business-OnlinePayment-SagePay",
+  "EXE_FILES" => [],
+  "LICENSE" => "perl",
+  "NAME" => "Business::OnlinePayment::SagePay",
+  "PREREQ_PM" => {
+    "Business::OnlinePayment" => "2.01",
+    "Data::Dumper" => 0,
+    "Net::SSLeay" => "1.35",
+    "Test::More" => 0
+  },
+  "VERSION" => "0.13",
+  "test" => {
+    "TESTS" => "t/*.t"
+  }
+);
 
 
-delete $WriteMakefileArgs{LICENSE}
-  unless eval { ExtUtils::MakeMaker->VERSION(6.31) };
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
+  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
+  my $pp = $WriteMakefileArgs{PREREQ_PM};
+  for my $mod ( keys %$br ) {
+    if ( exists $pp->{$mod} ) {
+      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod};
+    }
+    else {
+      $pp->{$mod} = $br->{$mod};
+    }
+  }
+}
+
+delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
 
 WriteMakefile(%WriteMakefileArgs);
 

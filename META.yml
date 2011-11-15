@@ -2,7 +2,11 @@
 abstract: 'SagePay (formerly Protx) backend for Business::OnlinePayment'
 author:
   - 'Simon Elliott <cpan@papercreatures.com>'
-generated_by: 'Dist::Zilla version 1.100160'
+build_requires: {}
+configure_requires:
+  ExtUtils::MakeMaker: 6.30
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300001, CPAN::Meta::Converter version 2.112150'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -11,7 +15,10 @@ name: Business-OnlinePayment-SagePay
 requires:
   Business::OnlinePayment: 2.01
   Data::Dumper: 0
-  ExtUtils::MakeMaker: 6.11
   Net::SSLeay: 1.35
   Test::More: 0
-version: 0.12
+resources:
+  bugtracker: https://github.com/purge/Business-OnlinePayment-SagePay/issues
+  license: http://dev.perl.org/licenses/
+  repository: http://github.com/purge/Business-OnlinePayment-SagePay
+version: 0.13

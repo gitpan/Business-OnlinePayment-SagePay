@@ -1,5 +1,9 @@
 Revision history for Perl extension Business::SagePay.
 
+0.13  2011-11-15
+      - Paypal support. Many thanks to cubabit (Pete Smith)
+      - refactor error messages
+
 0.12  Wed Feb 17 2010
       - support 'international maestro' as card type (handled as maestro).
 
