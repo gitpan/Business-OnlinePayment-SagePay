@@ -22,10 +22,11 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "Business::OnlinePayment" => "2.01",
     "Data::Dumper" => 0,
+    "Devel::Dwarn" => 0,
     "Net::SSLeay" => "1.35",
     "Test::More" => 0
   },
-  "VERSION" => "0.13",
+  "VERSION" => "0.14",
   "test" => {
     "TESTS" => "t/*.t"
   }

@@ -1,6 +1,6 @@
 package Business::OnlinePayment::SagePay;
 {
-  $Business::OnlinePayment::SagePay::VERSION = '0.13';
+  $Business::OnlinePayment::SagePay::VERSION = '0.14';
 }
 # vim: ts=2 sts=2 sw=2 :
   
@@ -664,7 +664,7 @@ Business::OnlinePayment::SagePay - SagePay backend for Business::OnlinePayment
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 SYNOPSIS
 
